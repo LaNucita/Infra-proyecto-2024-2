@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copia los archivos necesarios
 COPY requirements.txt requirements.txt
-COPY * .
+COPY . .
 
 # Copiar los archivos del frontend, incluyendo templates y static
 COPY ./templates /app/templates

@@ -6,9 +6,9 @@ A continuación se detallan los pasos necesarios para construir y desplegar la a
 
 ## Creadores
 
-- **serna**: Desarrollador del backend.
-- **adrian**: Responsable de la integración de Docker Swarm.
-- **edgar**: Responsable subir proyecto a azure
+- **Manuel Alexander Serna Jaraba -2259345**: Desarrollador del backend.
+- **Adrian Felipe Velasquez -2259456**: Responsable de la integración de Docker Swarm.
+- **Edgar Fabian Rueda Colonia -2259606**: Responsable subir proyecto a AWS
 
 ## Arquitectura del Proyecto
 
