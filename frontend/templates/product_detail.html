@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Detalle del producto -->
+    <div class="product-detail row">
+        <!-- Imagen del producto -->
+        <div class="col-md-6">
+            <img src="{{ fotos_url + product.image_path }}" alt="{{ product.name }}" 
+                class="img-fluid" 
+                style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px;">
+        </div>
+
+        <!-- Información del producto -->
+        <div class="col-md-6">
+            <h1 class="fw-bold">{{ product.name }}</h1>
+            
+            <!-- Calificaciones con estrellas -->
+            <div class="d-flex align-items-center mb-3">
+                <div class="text-warning">
+                    {% for i in range(1, 6) %}
+                        {% if i <= 4 %}
+                            <i class="bi bi-star-fill"></i>
+                        {% else %}
+                            <i class="bi bi-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <span class="ms-2 text-muted">({{ product.reviews_count }} opiniones)</span>
+            </div>
+
+            <!-- Precio y descuento -->
+            <p class="text-muted mb-1"><small>Envío gratis</small></p>
+            <p class="price fs-2 fw-bold text-primary">${{ product.price }}</p>
+
+            <!-- Botones de compra -->
+            <div class="mb-4">
+                <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post" class="mb-2">
+                    <button class="btn btn-primary w-100" type="submit">Añadir al carrito</button>
+                </form>
+                <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+                    <button type="submit" name="checkout" class="btn btn-success w-100">Comprar ahora</button>
+                </form>
+            </div>
+
+            <!-- Detalles adicionales -->
+            <p class="category fs-5 text-muted"><strong>Categoría:</strong> {{ product.category_id.name }}</p>
+            <p><strong>Descripción:</strong> {{ product.description }}</p>
+
+            <!-- Características destacadas -->
+            <h5 class="mt-4">Características:</h5>
+            <ul>
+                {% for feature in product.features %}
+                    <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sección de reseñas -->
+    <div class="mt-5">
+        <h3>Opiniones de clientes</h3>
+        <div class="list-group">
+            {% for review in product.reviews %}
+                <div class="list-group-item mb-3">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">{{ review.user_name }}</h5>
+                        <div class="text-warning">
+                            {% for i in range(1, 6) %}
+                                {% if i <= 4 %}
+                                    <i class="bi bi-star-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="mb-1">{{ review.comment }}</p>
+                    <small class="text-muted">{{ review.date }}</small>
+                </div>
+            {% endfor %}
+            {% if not product.reviews %}
+                <p class="text-muted">Aún no hay reseñas para este producto. ¡Sé el primero en opinar!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Productos relacionados -->
+    <div class="mt-5">
+        <h3>Productos relacionados</h3>
+        <div class="row g-4">
+            {% for related_product in related_products %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="card">
+                        <a href="{{ url_for('product_detail', product_id=related_product.id) }}">
+                            <img src="{{ fotos_url + related_product.image_path}}" alt="{{ product.name }}" class="img-fluid" style="max-width: 100%; height: auto;">
+                        </a>
+                        <div class="card-body">
+                            <a href="{{ url_for('product_detail', product_id=related_product.id) }}" class="text-decoration-none text-dark">
+                                <h5 class="card-title">{{ related_product.name }}</h5>
+                            </a>
+                            <p class="text-muted">${{ related_product.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

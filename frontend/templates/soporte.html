@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chat {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        #message {
+            width: 80%;
+            padding: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        #back {
+            margin-top: 20px;
+        }
+    </style>
+<h1>Chat de Soporte</h1>
+
+<div id="chat"></div>
+
+<input type="text" id="message" placeholder="Escribe tu mensaje..." />
+<button onclick="sendMessage()">Enviar</button>
+
+<!-- Botón para regresar -->
+<div id="back">
+    <a href="/">Volver a la página principal</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.3.2/dist/socket.io.min.js"></script>
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    // Asumimos que el rol está disponible como un dato en el contexto del servidor
+    var userRole = "comprador";  // Obtén el rol del usuario desde Flask
+
+    // Recibir los mensajes del servidor
+    socket.on('response', function(data) {
+        let chat = document.getElementById('chat');
+        chat.innerHTML += "<p>" + data.message + "</p>";
+        chat.scrollTop = chat.scrollHeight;
+    });
+
+    // Enviar el mensaje del soporte
+    function sendMessage() {
+        var message = document.getElementById('message').value;
+        var user = "usuario"; // Aquí usamos el nombre de usuario logueado
+
+        if (message.trim() !== "") {
+            socket.emit('send_message', { user: user, message: message, role: userRole });
+            document.getElementById('message').value = ''; // Limpiar el campo de mensaje
+        }
+    }
+</script>
+
+{% endblock%}

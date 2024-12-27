@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}<!-- Producto Destacado -->
+<!-- Producto Destacado -->
+<div class="container-fluid mt-5 p-0" style="position: relative; height: 400px; background: url('/static/uploads/dulces.jpg'); background-size: cover; background-position: center;">
+    <!-- Filtro de contraste oscuro para mejorar la visibilidad del texto -->
+    <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
+
+    <!-- Contenedor del contenido con el overlay aplicado -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 100%; color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); position: relative; z-index: 2;">
+        <!-- Información del Producto a la izquierda -->
+        <div class="col-md-6">
+            <!-- Texto de "Top Ventas" -->
+            <h2 class="text-uppercase fw-bold mb-4" style="font-size: 24px; text-align: center;">Top Ventas</h2>
+
+            <h1 class="display-4 text-center">{{ featured_product.name }}</h1>
+            <p class="lead text-center">{{ featured_product.description }}...</p>
+            <div class="text-center">
+                <a href="{{ url_for('product_detail', product_id=featured_product.id) }}" class="btn btn-light">Ver Producto</a>
+            </div>
+        </div>
+
+        <!-- Imagen del Producto a la derecha -->
+        <div class="col-md-6">
+            <img src="{{ fotos_url + featured_product.image_path }}" alt="{{ featured_product.name }}" class="img-fluid" 
+                 style="max-height: 300px; object-fit: cover; border-radius: 10px; 
+                        border: 5px solid; border-image: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)) 1;">
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- Categorías -->
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Categorías</h2>
+    <div class="d-flex justify-content-center flex-wrap">
+      {% for category in categories %}
+        {% if category.products|length > 0 %}
+        <a href="{{ url_for('search_products', category=category.id) }}" class="btn btn-outline-primary m-2">
+            {{ category.name }}
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Productos por Categoría -->
+  <div class="container mt-5">
+    <!-- <h2 class="text-center mb-4">Productos por Categoría</h2> -->
+
+    {% for category in categories %}
+      {% if category.products|length > 0 %}
+      <h3 class="text-center mb-4">{{ category.name }}</h3>
+      <div class="row g-4">
+        {% for product in products %}
+          {% if product.category_id == category.id %}
+            <div class="col-md-4 col-sm-6">
+              <div class="card h-100 shadow-sm" style="border-radius: 8px;">
+                <!-- Imagen del producto -->
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">
+                  <img src="{{ fotos_url + product.image_path }}" class="card-img-top" alt="{{ product.name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                </a>
+                <div class="card-body">
+                  <!-- Título del producto -->
+                  <a href="{{ url_for('product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                  </a>
+
+                  <!-- Estrellas de calificación -->
+                  <div class="product-rating mb-2">
+                    <span class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734;</span> <!-- Estrellas amarillas -->
+                    <span class="text-muted">(120 opiniones)</span>
+                  </div>
+
+                  <!-- Envío Gratis -->
+                  <p class="text-success fw-bold mb-1">Envío Gratis</p>
+
+                  <!-- Precio del producto -->
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text fs-4 text-primary mb-0">${{ product.price }}</p>
+                    <span class="text-danger text-decoration-line-through">${{ product.price * 1.2 | round(2) }}</span> <!-- Precio original tachado -->
+                  </div>
+
+                  <!-- Descripción corta -->
+                  <p class="text-muted">{{ product.description[:100] }}...</p>
+
+                  <!-- Etiqueta de oferta o descuento -->
+                  <div class="d-flex justify-content-start align-items-center mt-2">
+                    <span class="badge bg-danger text-white">¡Oferta!</span>
+                  </div>
+
+                  <!-- Botón de añadir al carrito -->
+                  <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post" class="mt-3">
+                    <button class="btn btn-primary w-100" type="submit">Añadir al carrito</button>
+                  </form>
+
+                  <!-- Botón de ver detalles -->
+                  <div class="d-flex justify-content-between align-items-center mt-2">
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-outline-secondary btn-sm w-100">Ver detalles</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif%}
+    {% endfor %}
+  </div>
+{% endblock %}

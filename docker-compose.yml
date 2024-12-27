@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: basedatos
+    environment:
+      POSTGRES_USER: administrador         
+      POSTGRES_PASSWORD: admin 
+      POSTGRES_DB: Dulceria       
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dulceria_network
+  
+  flask-api:
+    image: backend
+    container_name: flask-api
+    environment:
+      DATABASE_URL: postgresql://administrador:admin@postgres:5432/Dulceria
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - uploads_data:/app/uploads 
+    networks:
+      - dulceria_network
+
+  frontend:
+    image: frontend
+    container_name: frontend
+    environment:
+      API_URL: 'http://flask-api:8080'  # Cambiar 127.0.0.1 a flask-api
+    ports:
+      - "80:80"
+    depends_on:
+      - flask-api
+    networks:
+      - dulceria_network
+
+networks:
+  dulceria_network:
+
+volumes:
+  postgres_data:
+  uploads_data:

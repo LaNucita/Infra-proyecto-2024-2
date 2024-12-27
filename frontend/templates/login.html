@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Iniciar Sesión</h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de usuario</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="/register" class="text-decoration-none">¿No tienes cuenta? Regístrate aquí</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

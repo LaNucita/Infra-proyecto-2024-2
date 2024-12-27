@@ -1,0 +1,8 @@
+# Usa la imagen oficial de PostgreSQL
+FROM postgres:latest
+
+# Copia el archivo SQL al contenedor
+COPY create_tables.sql /docker-entrypoint-initdb.d/
+
+# Configura el puerto predeterminado de PostgreSQL
+EXPOSE 5432

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Registro de Usuario</h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label">Nombre</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label">Apellido</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Apellido" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="age" class="form-label">Edad</label>
+                                <input type="number" id="age" name="age" class="form-control" placeholder="Edad" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de usuario</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Registrar</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="/login" class="text-decoration-none">¿Ya tengo cuenta? Iniciar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
